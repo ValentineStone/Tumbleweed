@@ -4,7 +4,7 @@
 #include "SDL.h"
 #include "Skia.h"
 
-int main() {
+int main(int argc, char * argv[]) {
     SDL sdl("Hello, world!", 255, 255);
     Skia skia(255, 255);
     bool is_running = true;
@@ -86,4 +86,3 @@ int main() {
     }
     return 0;
 }
-int WinMain() { return main(); }
