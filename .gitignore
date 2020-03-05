@@ -3,3 +3,8 @@
 lib/
 *.dll
 res/
+bin/
+build/
+obj/
+Makefile
+*.make
