@@ -16,6 +16,7 @@ project "tumbleweed"
         "skia",
         "User32"
     }
+    targetdir "."
     linkoptions { "-Xlinker -subsystem:windows" }
     symbols "On"
 
