@@ -1,0 +1,15 @@
+<terminal>
+    <inputs>
+        <keyboard/>
+        <mouse/>
+    </inputs>
+    <output>
+        <display
+            width="255"
+            height="255"
+            color_depth="32"
+            resizable="false"
+        />
+    </output>
+    <program src="main.lua"/>
+</terminal>

@@ -1,88 +1,81 @@
 #include <iostream>
-#include <chrono>
+#include <fstream>
 #include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+#include <vector>
 #include "SDL.h"
-#include "Skia.h"
+#include "tinyxml2.h"
+#include "pugixml.hpp"
 
-int main(int argc, char * argv[]) {
-    SDL sdl("Hello, world!", 255, 255);
-    Skia skia(255, 255);
-    bool is_running = true;
-    int FPS = 60;
-    double rotation = 0;
-    double rotation_speed = 0.5;
-    double i_double = 0;
-    int i = 0;
-    int i2 = 0;
-    std::string str;
+const int WIDTH = 255;
+const int HEIGHT = 255;
+const int FPS = 255;
 
+/*
+tinyxml2::XMLElement* query_selector(
+    tinyxml2::XMLDocument& _doc,
+    std::string _path
+) {
+    std::istringstream iss(_path);
+    std::vector<std::string> names {
+        std::istream_iterator<std::string>{iss},
+        std::istream_iterator<std::string>{}
+    };
+    tinyxml2::XMLNode* node = &_doc;
+    for (auto name : names)
+        if (!(node = node->FirstChildElement(name.c_str())))
+            return nullptr;
+    return node->ToElement();
+}
+*/
+
+int main(int _argc, char** _argv) {
+    bool is_running = false;
+    SDL sdl("Hello, world!", WIDTH, HEIGHT);
+
+    pugi::xml_document doc;
+    auto result = doc.load_file("index.xml");
+
+    try {
+        auto t = doc.select_node("/terminal/output/display/@width");
+        std::cout << t.attribute().value();
+    }
+    catch (pugi::xpath_exception& e) {
+        std::cout << e.what();
+    }
+
+    std::cout
+        << "Load result: "
+        << result.description()
+        << ", display width: "
+        << NULL
+
+        << std::endl;
+
+    /*
+    tinyxml2::XMLDocument doc;
+	doc.LoadFile("index.xml");
+    tinyxml2::XMLElement* elem = query_selector(doc, "terminal output display");
+    if (elem) {
+        int width;
+        if (!elem->QueryIntAttribute("width", &width))
+            std::cout << "width=" << width << '\n';
+        else
+            std::cout << "element has no width attribute\n";
+    }
+    else
+        std::cout << "the path is incorrect\n";
+    */
+    
     while (is_running) {
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+        while (SDL_PollEvent(&event))
+            if (event.type == SDL_QUIT)
                 is_running = false;
-                break;
-            }
-        }
-        sdl.draw([&](SDL_Renderer* _ren){
-            skia.draw(_ren, [&](SkCanvas* cv){
-                rotation += rotation_speed;
-                i_double += 0.3;
-                i = i_double;
-                i2++;
-                cv->save();
-                cv->rotate(rotation, 127, 127);
-                cv->drawColor(SkColorSetRGB(5,5,20));
-                
-
-                SkPaint paint;
-                paint.setStyle(SkPaint::kStroke_Style);
-                paint.setStrokeWidth(1);
-                paint.setAntiAlias(true);
-
-                SkRect rect = SkRect::MakeXYWH(50-(i%100/2), 50-(i%100/2), 40+i%100, 60+i%100);
-                paint.setColor(SK_ColorWHITE);
-                cv->drawRect(rect, paint);
-
-                SkRRect oval;
-                oval.setOval(rect);
-                oval.offset(40, 60);
-                paint.setColor(SK_ColorWHITE);
-                cv->drawRRect(oval, paint);
-
-                paint.setColor(SK_ColorWHITE);
-                cv->drawCircle(180, 50, 0+i%30, paint);
-                cv->drawCircle(180, 120, 0+i%30, paint);
-                cv->drawCircle(180, 190, 0+i%30, paint);
-
-                rect.offset(80, 0);
-                paint.setColor(SK_ColorWHITE);
-                cv->drawRoundRect(rect, 10, 10, paint);
-
-                SkPath path;
-                path.cubicTo(768, 0, -512, 256, 256, 256);
-                paint.setColor(SK_ColorWHITE);
-                cv->drawPath(path, paint);
-                
-                cv->saveLayer(nullptr, nullptr);
-                cv->rotate(-rotation, 120, 120);
-
-                    str = std::string(
-                        "Hello, Skia! fp: ")
-                        + std::to_string(i2)
-                    ;
-                    SkPaint paint2;
-                    paint2.setStrokeWidth(1);
-                    paint2.setAntiAlias(true);
-                    paint2.setColor(SkColorSetRGB(200,200,255));
-                    auto text = SkTextBlob::MakeFromString(str.c_str(), SkFont(nullptr, 14));
-                    cv->drawTextBlob(text.get(), 120, 120, paint2);
-
-                cv->restore();
-                cv->restore();
-            });
-        });
         SDL_Delay(1000 / FPS);
     }
+
     return 0;
 }

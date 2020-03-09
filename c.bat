@@ -1,5 +1,5 @@
 @echo off
 del tumbleweed.exe
 premake5 gmake2
-make CXX=clang++ SHELL=cmd
-tumbleweed.exe
+make SHELL=cmd
+tumbleweed.exe > stdout.log 2> stderr.log

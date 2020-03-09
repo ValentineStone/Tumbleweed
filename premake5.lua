@@ -1,20 +1,23 @@
 workspace "tumbleweed"
-    configurations { "Release", "Debug" }
+    configurations { "Debug", "Release" }
 
 project "tumbleweed"
     kind "WindowedApp"
     language "C++"
-    files { "src/**.cpp" }
+    files {
+        "src/**.cpp",
+    }
     includedirs {
         "skia_include",
         "include"
     }
     libdirs { "lib" }
     links {
+        "tinyxml2",
         "SDL2",
         "SDL2main",
         "skia",
-        "User32"
+        "User32",
     }
     targetdir "."
     linkoptions { "-Xlinker -subsystem:windows" }
