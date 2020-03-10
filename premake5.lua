@@ -4,6 +4,7 @@ workspace "tumbleweed"
 project "tumbleweed"
     kind "WindowedApp"
     language "C++"
+    cppdialect "c++17"
     files {
         "src/**.cpp",
     }
@@ -13,7 +14,7 @@ project "tumbleweed"
     }
     libdirs { "lib" }
     links {
-        "tinyxml2",
+        "pugixml",
         "SDL2",
         "SDL2main",
         "skia",
@@ -25,6 +26,7 @@ project "tumbleweed"
 
     filter "configurations:Debug"
         defines { "DEBUG" }
+        buildoptions { "--debug" }
 
     filter "configurations:Release"
         optimize "On"

@@ -3,9 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
-              "${workspaceFolder}/**",
-              "${workspaceFolder}/include/**",
-              "${workspaceFolder}/skia_include/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/skia_include/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -17,6 +17,25 @@
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "msvc-x64"
+        },
+        {
+            "name": "clang++",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/skia_include/**"
+            ],
+            "defines": [
+                "DEBUG",
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "\"C:/Program Files/LLVM/bin/clang++.exe\"",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
         }
     ],
     "version": 4

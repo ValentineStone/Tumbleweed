@@ -1,0 +1,10 @@
+<terminal version="1.0">
+    <options
+        title="Game"
+        width="255"
+        height="255"
+        fps="60"
+        program="main.lua"
+        icon="../res/kebab.bmp"
+    />
+</terminal>
