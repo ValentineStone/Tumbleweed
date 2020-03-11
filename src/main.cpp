@@ -1,11 +1,11 @@
 #include <iostream>
-#include "terminal.h"
-#include "game.hpp"
+#include "Terminal.h"
+#include "Game.h"
 
 int main(int _argc, char** _argv) {
     bool is_running = false;
-    tw::terminal terminal("program");
-    game::game_t game;
+    Terminal terminal("program");
+    Game game;
     terminal.__set_entity(&game);
     terminal.run();
     return 0;

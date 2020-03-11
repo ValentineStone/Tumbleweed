@@ -1,9 +1,8 @@
 #pragma once
 #include "tumbleweed.h"
 
-namespace game {
 
-class player_t: public tw::entity_t {
+class Player: public Entity {
     public:
     int x;
     int y;
@@ -13,16 +12,16 @@ class player_t: public tw::entity_t {
     bool moving_up    = false;
     bool moving_right = false;
     bool moving_left  = false;
-    tw::paint_t paint;
+    SkPaint paint;
 
-    player_t(int _x, int _y): x(_x), y(_y) {
-        paint.setColor(tw_color(WHITE));
+    Player(int _x, int _y): x(_x), y(_y) {
+        paint.setColor(SK_ColorWHITE);
         paint.setStyle(SkPaint::kStroke_Style);
     }
-    void render(tw::canvas_t* _c) {
+    void render(SkCanvas* _c) {
         _c->drawCircle(x, y, r, paint);
     }
-    void update(tw::state_t* _s) {
+    void update(State* _s) {
         int dx = 0;
         int dy = 0;
         if (moving_up)    dy -= vel;
@@ -32,7 +31,7 @@ class player_t: public tw::entity_t {
         x += dx;
         y += dy;
     }
-    void handle_event(tw::event_t* _e) {
+    void handle_event(SDL_Event* _e) {
         auto key = _e->key.keysym.sym;
         if (_e->type == SDL_KEYDOWN) {
             if      (key == SDLK_w) moving_up    = true;
@@ -48,5 +47,3 @@ class player_t: public tw::entity_t {
         }
     }
 };
-
-}

@@ -1,20 +1,16 @@
 #pragma once
 #include <filesystem>
 #include <string>
-#include <SDL2/SDL.h>
-#include <Skia.h>
 #include "tumbleweed.h"
 
-namespace tw {
-
-class terminal {
+class Terminal {
     public: 
-    terminal(std::filesystem::path);
-    ~terminal();
+    Terminal(std::filesystem::path);
+    ~Terminal();
     void run();
     void render();
     void update();
-    void __set_entity(entity_t*);
+    void __set_entity(Entity*);
 
     private:
     SDL_Window* win;
@@ -33,8 +29,8 @@ class terminal {
     std::string title;
     std::filesystem::path program_path;
     std::filesystem::path icon_path;
-    entity_t* entity;
-    state_t state;
+    Entity* entity;
+    State state;
         
     void handle_error(std::string);
     void handle_error_sdl(std::string);
@@ -47,4 +43,3 @@ class terminal {
     void render_sdl();
     void render_skia();
 };
-}

@@ -1,35 +1,31 @@
 #pragma once
 #include "tumbleweed.h"
-#include "player.hpp"
-#include "dotfield.hpp"
+#include "Player.h"
+#include "Dotfield.h"
 #include <vector>
 
-namespace game {
-
-class game_t: public tw::entity_t {
-    game::player_t player{100,100};
-    game::dotfield_t dotfield{255,255,1000};
-    std::vector<tw::entity_t*> entities;
+class Game: public Entity {
+    Player player{100,100};
+    Dotfield dotfield{255,255,1000};
+    std::vector<Entity*> entities;
 ;
     public:
-    game_t() {
+    Game() {
         entities.push_back(&player);
         entities.push_back(&dotfield);
     }
     private:
-    void render(tw::canvas_t* _c) {
+    void render(SkCanvas* _c) {
         _c->clear(0xff020205);
         for (auto e : entities)
             e->render(_c);
     }
-    void update(tw::state_t* _s) {
+    void update(State* _s) {
         for (auto e : entities)
             e->update(_s);
     }
-    void handle_event(tw::event_t* _e) {
+    void handle_event(SDL_Event* _e) {
         for (auto e : entities)
             e->handle_event(_e);
     }
 };
-
-}

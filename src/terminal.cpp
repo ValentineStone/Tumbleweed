@@ -1,25 +1,21 @@
-#include "terminal.h"
+#include "Terminal.h"
 #include <iostream>
 #include <pugixml.hpp>
 
-namespace tw {
-
-SDL_Surface* __get_icon();
-
-terminal::terminal(std::filesystem::path _program_path) {
+Terminal::Terminal(std::filesystem::path _program_path) {
     program_path = _program_path;
     init_with_program_path();
     init_sdl();
     init_skia();
 }
 
-void terminal::render() {
+void Terminal::render() {
     render_sdl();
 }
-void terminal::update() {
+void Terminal::update() {
     entity->update(&state);
 }
-void terminal::run() {
+void Terminal::run() {
     running = true;
     while (running) {
         SDL_Event event;
@@ -34,11 +30,11 @@ void terminal::run() {
     }
 }
 
-void terminal::__set_entity(entity_t* _entity) {
+void Terminal::__set_entity(Entity* _entity) {
     entity = _entity;
 }
 
-void terminal::init_skia() {
+void Terminal::init_skia() {
     sk_sdl_surface = SDL_CreateRGBSurfaceWithFormat(
         0,
         width,
@@ -58,7 +54,7 @@ void terminal::init_skia() {
     sk_canvas = sk_surface->getCanvas();
 }
 
-void terminal::init_sdl() {
+void Terminal::init_sdl() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         handle_error_sdl("SDL_Init");
 
@@ -84,24 +80,24 @@ void terminal::init_sdl() {
     if (this->ren == nullptr)
         handle_error_sdl("SDL_CreateRenderer");
 }
-terminal::~terminal() {
+Terminal::~Terminal() {
     free_skia();
     free_sdl();
 }
-void terminal::free_sdl() {
+void Terminal::free_sdl() {
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(win);
     SDL_Quit();
 }
-void terminal::free_skia() {
+void Terminal::free_skia() {
     SDL_FreeSurface(sk_sdl_surface);
 }
-void terminal::render_sdl() {
+void Terminal::render_sdl() {
     SDL_RenderClear(ren);
     render_skia();
     SDL_RenderPresent(ren);
 }
-void terminal::render_skia() {
+void Terminal::render_skia() {
     entity->render(sk_canvas);
     SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, sk_sdl_surface);
     if (tex == nullptr)
@@ -111,16 +107,16 @@ void terminal::render_skia() {
 }
 
 
-void terminal::handle_error_sdl(std::string _msg) {
+void Terminal::handle_error_sdl(std::string _msg) {
     std::cerr << _msg << ": " << SDL_GetError() << std::endl;
     std::cout << _msg << ": " << SDL_GetError() << std::endl;
 }
 
-void terminal::init_with_program_path() {
+void Terminal::init_with_program_path() {
     auto index_path = program_path / "index.xml";
     pugi::xml_document doc;
     doc.load_file(index_path.c_str());
-    auto term = doc.child("terminal");
+    auto term = doc.child("Terminal");
     float float_version = term.attribute("version").as_float();
     int version = (int)float_version;
     int subversion = (int)(float_version * 10) % 10;
@@ -134,6 +130,4 @@ void terminal::init_with_program_path() {
             fullscreen = config.attribute("fullscreen").as_bool();
             icon_path = program_path / config.attribute("icon").as_string();
     }
-}
-
 }
