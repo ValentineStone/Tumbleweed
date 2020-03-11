@@ -6,5 +6,6 @@
         fps="60"
         program="main.lua"
         icon="../res/kebab.bmp"
+        fullscreen="false"
     />
 </terminal>

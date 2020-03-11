@@ -10,7 +10,15 @@ const float PI_F = 3.14159265358979f;
 namespace game {
 
 class dotfield_t: public tw::entity_t {
-    struct dot_t {float x,y,dx,dy;};
+    struct dot_t {
+        float x,y,dx,dy;
+        dot_t(){
+            x = PI_F * std::rand() / (float)RAND_MAX;
+            y = PI_F * std::rand() / (float)RAND_MAX * 2;
+            dx = .02f * std::rand() / (float)RAND_MAX - .01f;
+            dy = .02f * std::rand() / (float)RAND_MAX - .01f;
+        }
+    };
     std::vector<dot_t> dots;
     tw::paint_t paint;
     tw::paint_t paint_line;
@@ -24,15 +32,14 @@ class dotfield_t: public tw::entity_t {
         height(_height),
         n(_n)
     {
+        init();
         paint.setColor(tw_color(WHITE));
         std::srand(std::time(nullptr));
         for (int i = 0; i < n; i++)
-            dots.push_back({
-                PI_F * std::rand() / (float)RAND_MAX,
-                PI_F * std::rand() / (float)RAND_MAX * 2,
-                .08f * std::rand() / (float)RAND_MAX - .04f,
-                .08f * std::rand() / (float)RAND_MAX - .04f
-            });
+            dots.push_back(dot_t());
+    }
+    ~dotfield_t() {
+        free();
     }
 
     private:
@@ -45,7 +52,7 @@ class dotfield_t: public tw::entity_t {
             int x = (_x + 1) / 2 * width;
             int y = (_y + 1) / 2 * height;
             int z = (_z + 1) / 2 * 255;
-            paint.setColor(0xff000033 | z | z << 8 | z << 16);
+            paint.setColor(0xff000055 | z | z << 8 | z << 16);
             _c->drawPoint(x, y, paint);
         }
     }
@@ -56,6 +63,11 @@ class dotfield_t: public tw::entity_t {
         }
     }
     void handle_event(tw::event_t* _e) {
+    }
+
+    void init() {
+    }
+    void free() {
     }
 };
 
