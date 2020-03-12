@@ -116,7 +116,7 @@ void Terminal::init_with_program_path() {
     auto index_path = program_path / "index.xml";
     pugi::xml_document doc;
     doc.load_file(index_path.c_str());
-    auto term = doc.child("Terminal");
+    auto term = doc.child("terminal");
     float float_version = term.attribute("version").as_float();
     int version = (int)float_version;
     int subversion = (int)(float_version * 10) % 10;
