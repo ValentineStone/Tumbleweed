@@ -58,11 +58,11 @@ class Dotfield: public Entity {
             int y = (_y + 1) / 2 * height;
             int z = (_z + 1) / 2 * 255;
             paint.setColor(0xff000055 | z | z << 8 | z << 16);
-            if (dot.dx == 0) // dot is player
+            if (dot.dx == 0)                  // dot is player
                 _c->drawCircle(x, y, 5, paint);
-            else if (std::abs(dot.dx) > .008)
+            else if (std::abs(dot.dx) > .008) // draw dot as circle
                 _c->drawCircle(x, y, (1000 * dot.dx - 8), paint);
-            else             // dot is not player
+            else                              // draw dot as pixel
                 _c->drawPoint(x, y, paint);
         }
     }
@@ -71,8 +71,8 @@ class Dotfield: public Entity {
         dots[0].x += kc.dx;
         dots[0].y += kc.dy;
         for (auto& dot : dots) {
-            dot.x += dot.dx;
-            dot.y += dot.dy;
+            dot.x += kc.dx;//dot.dx;
+            dot.y += kc.dy;//dot.dy;
         }
     }
     void handle_event(SDL_Event* _e) {
