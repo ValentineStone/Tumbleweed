@@ -1,7 +1,8 @@
 #pragma once
-#include <filesystem>
 #include <string>
+#include <filesystem>
 #include "tumbleweed.h"
+#include "TerminalConf.h"
 
 class Terminal {
     public: 
@@ -13,6 +14,9 @@ class Terminal {
     void __set_entity(Entity*);
 
     private:
+    bool running;
+    TerminalConf conf;
+    std::filesystem::path program_path;
     SDL_Window* win;
     SDL_Renderer* ren;
     
@@ -21,14 +25,7 @@ class Terminal {
     sk_sp<SkSurface> sk_surface;
     SkCanvas* sk_canvas;
 
-    int width;
-    int height;
-    int fps;
-    bool fullscreen;
-    bool running;
-    std::string title;
-    std::filesystem::path program_path;
-    std::filesystem::path icon_path;
+
     Entity* entity;
     State state;
         

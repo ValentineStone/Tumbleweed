@@ -1,10 +1,10 @@
 #include "Terminal.h"
 #include <iostream>
-#include <pugixml.hpp>
 
 Terminal::Terminal(std::filesystem::path _program_path) {
     program_path = _program_path;
-    init_with_program_path();
+    conf.load<2,0>(_program_path);
+    std::cerr << conf;
     init_sdl();
     init_skia();
 }
@@ -26,7 +26,7 @@ void Terminal::run() {
         }
         update();
         render();
-        SDL_Delay(1000 / fps);
+        SDL_Delay(1000 / conf.fps);
     }
 }
 
@@ -37,15 +37,15 @@ void Terminal::__set_entity(Entity* _entity) {
 void Terminal::init_skia() {
     sk_sdl_surface = SDL_CreateRGBSurfaceWithFormat(
         0,
-        width,
-        height,
+        conf.width,
+        conf.height,
         32,
         SDL_PIXELFORMAT_BGRA32
     );
     if (sk_sdl_surface == nullptr) 
         handle_error_sdl("SDL_CreateRGBSurfaceWithFormat");
 
-    sk_image_info = SkImageInfo::MakeN32Premul(width, height);
+    sk_image_info = SkImageInfo::MakeN32Premul(conf.width, conf.height);
     sk_surface = SkSurface::MakeRasterDirect(
         sk_image_info,
         sk_sdl_surface->pixels,
@@ -59,16 +59,16 @@ void Terminal::init_sdl() {
         handle_error_sdl("SDL_Init");
 
     this->win = SDL_CreateWindow(
-        title.c_str(),
+        conf.title.c_str(),
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        width, height,
+        conf.width, conf.height,
         SDL_WINDOW_SHOWN
-        | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0)
+        | (conf.fullscreen ? SDL_WINDOW_FULLSCREEN : 0)
     );
     if (this->win == nullptr)
         handle_error_sdl("SDL_CreateWindow");
 
-    auto icon = SDL_LoadBMP(icon_path.generic_string().c_str());
+    auto icon = SDL_LoadBMP(conf.icon_path.generic_string().c_str());
     SDL_SetWindowIcon(win, icon);
     SDL_FreeSurface(icon);
 
@@ -110,24 +110,4 @@ void Terminal::render_skia() {
 void Terminal::handle_error_sdl(std::string _msg) {
     std::cerr << _msg << ": " << SDL_GetError() << std::endl;
     std::cout << _msg << ": " << SDL_GetError() << std::endl;
-}
-
-void Terminal::init_with_program_path() {
-    auto index_path = program_path / "index.xml";
-    pugi::xml_document doc;
-    doc.load_file(index_path.c_str());
-    auto term = doc.child("terminal");
-    float float_version = term.attribute("version").as_float();
-    int version = (int)float_version;
-    int subversion = (int)(float_version * 10) % 10;
-    switch (version) {
-        case 1:
-            auto config = term.child("options");
-            height = config.attribute("height").as_int();
-            width = config.attribute("width").as_int();
-            fps = config.attribute("fps").as_int();
-            title = config.attribute("title").as_string();
-            fullscreen = config.attribute("fullscreen").as_bool();
-            icon_path = program_path / config.attribute("icon").as_string();
-    }
 }

@@ -14,6 +14,7 @@ project "tumbleweed"
     }
     libdirs { "lib" }
     links {
+        "lua54",
         "pugixml",
         "SDL2",
         "SDL2main",

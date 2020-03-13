@@ -6,7 +6,8 @@
 typedef SDL_Event SDL_Event;
 typedef SkCanvas SkCanvas;
 typedef SkPaint SkPaint;
-typedef struct {} State;
+typedef struct {
+} State;
 
 struct Entity {
     virtual void render(SkCanvas*) = 0;
