@@ -1,5 +1,4 @@
 #include "Terminal.h"
-#include <iostream>
 
 Terminal::Terminal(std::filesystem::path _program_path) {
     program_path = _program_path;
@@ -15,18 +14,22 @@ void Terminal::render() {
 void Terminal::update() {
     entity->update(&state);
 }
+
 void Terminal::run() {
-    running = true;
-    while (running) {
+    while (!SDL_QuitRequested()) {
+        unsigned int render_start = SDL_GetTicks();
+
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT)
-                running = false;
+        while (SDL_PollEvent(&event))
             entity->handle_event(&event);
-        }
         update();
         render();
-        SDL_Delay(1000 / conf.fps);
+        
+        unsigned int render_finish = SDL_GetTicks();
+        int render_time = render_finish - render_start;
+        int desired_delay = 1000 / conf.fps;
+        if (render_time < desired_delay)
+            SDL_Delay(desired_delay - render_time);
     }
 }
 

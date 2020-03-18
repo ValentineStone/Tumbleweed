@@ -6,14 +6,14 @@
 
 class Game: public Container {
     Player player{100,100};
-    Dotfield dotfield{255,255,1000};
+    Dotfield dotfield{640,640,10000};
     Experiment experiment;
 
     public:
     Game() {
-        entities.push_back(&player);
-        entities.push_back(&dotfield);
-        entities.push_back(&experiment);
+        add(&player);
+        add(&dotfield);
+        add(&experiment);
     }
     private:
     void render(SkCanvas* _c) {

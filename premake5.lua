@@ -4,14 +4,21 @@ workspace "tumbleweed"
 project "tumbleweed"
     kind "WindowedApp"
     language "C++"
-    cppdialect "c++17"
     files {
         "src/**.cpp",
+        "src/**.pch",
     }
     includedirs {
         "skia_include",
         "include"
     }
+
+    buildoptions {
+        "-std=c++2a",
+        "-include-pch obj/tumbleweed.pch"
+    }
+    defines { "USES_TUMBLEWEED_PCH" }
+
     libdirs { "lib" }
     links {
         "lua54",

@@ -37,5 +37,4 @@ class KeyboardController: public Entity {
             else if (key == SDLK_d) moving_right = false;
         }
     }
-    void render(SkCanvas* _c) {}
 };

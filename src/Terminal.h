@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <filesystem>
 #include "tumbleweed.h"
 #include "TerminalConf.h"
 
@@ -14,7 +12,6 @@ class Terminal {
     void __set_entity(Entity*);
 
     private:
-    bool running;
     TerminalConf conf;
     std::filesystem::path program_path;
     SDL_Window* win;

@@ -1,8 +1,4 @@
 #include "TerminalConf.h"
-#include <iostream>
-#include <sstream>
-#include <pugixml.hpp>
-#include <sol/sol.hpp>
 
 template<>
 void TerminalConf::load<1,0> (path_t _root) {
