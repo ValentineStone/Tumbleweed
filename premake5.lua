@@ -9,8 +9,8 @@ project "tumbleweed"
         "src/**.pch",
     }
     includedirs {
-        "skia_include",
-        "include"
+        "include",
+        "include/skia_include"
     }
 
     buildoptions {

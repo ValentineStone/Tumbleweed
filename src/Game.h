@@ -1,19 +1,13 @@
 #pragma once
 #include "tumbleweed.h"
-#include "Player.h"
-#include "Dotfield.h"
-#include "Experiment.h"
+#include "Spacetime.h"
 
 class Game: public Container {
-    Player player{100,100};
-    Dotfield dotfield{640,640,10000};
-    Experiment experiment;
+    Spacetime Spacetime{128};
 
     public:
     Game() {
-        add(&player);
-        add(&dotfield);
-        add(&experiment);
+        add(&Spacetime);
     }
     private:
     void render(SkCanvas* _c) {

@@ -4,6 +4,8 @@
 template <typename T>
 class KeyboardController: public Entity {
     public:
+    T x = 0;
+    T y = 0;
     T dx;
     T dy;
     T vel = 1;
@@ -21,6 +23,8 @@ class KeyboardController: public Entity {
         if (moving_left)  dx -= vel;
         if (moving_down)  dy += vel;
         if (moving_right) dx += vel;
+        x += dx;
+        y += dy;
     }
     void handle_event(SDL_Event* _e) {
         auto key = _e->key.keysym.sym;

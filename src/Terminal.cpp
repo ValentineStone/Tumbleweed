@@ -3,6 +3,7 @@
 Terminal::Terminal(std::filesystem::path _program_path) {
     program_path = _program_path;
     conf.load<2,0>(_program_path);
+    state = { conf.width, conf.height };
     std::cerr << conf;
     init_sdl();
     init_skia();

@@ -13,7 +13,20 @@
 #include <pugixml.hpp>
 #include <sol/sol.hpp>
 
-struct State {};
+template<typename T, typename... Targs>
+void Log(T value, Targs... rest) {
+    std::cout << value << ' ';
+    Log(rest...);
+}
+template<typename T>
+void Log(T value) {
+    std::cout << value << std::endl;
+}
+
+struct State {
+    int screen_w;
+    int screen_h;
+};
 
 class Entity {
     public:
@@ -52,6 +65,25 @@ class Container: public Entity {
     virtual void handle_event(SDL_Event* _e) {
         for (auto e : entities)
             e->handle_event(_e);
+    }
+};
+struct Vector2d {
+    float x,y;
+    float distance(const Vector2d& _v) {
+        return std::sqrt(
+            std::pow(x - _v.x, 2) +
+            std::pow(y - _v.y, 2)
+        );
+    }
+};
+struct Vector3d : public Vector2d {
+    float z;
+    float distance(const Vector3d& _v) {
+        return std::sqrt(
+            std::pow(x - _v.x, 2) +
+            std::pow(y - _v.y, 2) +
+            std::pow(z - _v.z, 2)
+        );
     }
 };
 #endif

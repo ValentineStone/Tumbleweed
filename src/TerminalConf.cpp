@@ -37,12 +37,12 @@ void TerminalConf::load<2,0> (path_t _root) {
 TerminalConf::operator std::string() const {
     std::stringstream ss;
     ss  << "TerminalConf("
-        << "\n\twidth: " << width
-        << "\n\theight: " << height
-        << "\n\tfps: " << fps
-        << "\n\tfullscreen: " << (fullscreen?"true":"false")
-        << "\n\ttitle: " << title
-        << "\n\ticon_path: " << icon_path
+        << "\n\twidth: "      << width
+        << "\n\theight: "     << height
+        << "\n\tfps: "        << fps
+        << "\n\tfullscreen: " << (fullscreen ? "true" : "false")
+        << "\n\ttitle: "      << title
+        << "\n\ticon_path: "  << icon_path
         << "\n)";
     return ss.str();
 }
