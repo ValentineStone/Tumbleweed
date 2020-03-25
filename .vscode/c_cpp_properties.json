@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include/**",
-                "${workspaceFolder}/skia_include/**"
+                "${workspaceFolder}/include/external/**",
+                "${workspaceFolder}/include/external/skia**"
             ],
             "defines": [],
             "windowsSdkVersion": "10.0.18362.0",

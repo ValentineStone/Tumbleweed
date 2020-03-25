@@ -5,12 +5,12 @@ project "tumbleweed"
     kind "WindowedApp"
     language "C++"
     files {
-        "src/**.cpp",
-        "src/**.pch",
+        "src/**.cpp"
     }
     includedirs {
         "include",
-        "include/skia_include"
+        "include/external",
+        "include/external/skia",
     }
 
     buildoptions {

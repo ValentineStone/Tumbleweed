@@ -1,5 +1,5 @@
 #pragma once
-
+#include "tumbleweed.h"
 
 struct TerminalConf {
     static constexpr int __LATEST_VER = 2;

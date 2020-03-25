@@ -1,4 +1,4 @@
-obj/tumbleweed.pch: src/tumbleweed.h
-	@clang++ -std=c++2a -x c++-header src/tumbleweed.h -Iinclude/skia_include -Iinclude -o obj/tumbleweed.pch
+obj/tumbleweed.pch: include/tumbleweed.h
+	@clang++ -std=c++2a -x c++-header include/tumbleweed.h -Iinclude/external/skia -Iinclude/external -o obj/tumbleweed.pch
 clean:
 	@del obj\tumbleweed.pch
